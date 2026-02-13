@@ -1,0 +1,22 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+
+- name: Install common packages
+  apt:
+    name:
+      - git
+      - wget
+      - curl
+      - vim
+    state: present
+  become: yes
+
+- name: Install Java (required for Jenkins)
+  apt:
+    name: openjdk-17-jdk
+    state: present
+  become: yes

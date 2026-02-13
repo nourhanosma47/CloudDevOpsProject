@@ -16,5 +16,5 @@ module "server" {
   vpc_id        = module.network.vpc_id
   subnet_id     = module.network.public_subnet_ids[0]
   instance_type = "t2.micro"
-  key_name      = "" # Leave empty if no key pair
+  key_name      = "vockey"
 }

@@ -1,0 +1,13 @@
+---
+- name: Configure Jenkins Server
+  hosts: jenkins
+  become: yes
+  roles:
+    - common
+    - docker
+    - jenkins
+
+  tasks:
+    - name: Display completion message
+      debug:
+        msg: "Jenkins installation completed! Access at http://{{ ansible_host }}:8080"
