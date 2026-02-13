@@ -12,7 +12,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    buildDockerImage(DOCKER_IMAGE, IMAGE_TAG)
+                    buildImage(DOCKER_IMAGE, IMAGE_TAG)
                 }
             }
         }
@@ -20,7 +20,7 @@ pipeline {
         stage('Scan Image') {
             steps {
                 script {
-                    scanDockerImage(DOCKER_IMAGE, IMAGE_TAG)
+                    scanImage(DOCKER_IMAGE, IMAGE_TAG)
                 }
             }
         }
@@ -28,31 +28,23 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                    pushDockerImage(DOCKER_IMAGE, IMAGE_TAG)
+                    pushImage(DOCKER_IMAGE, IMAGE_TAG)
                 }
             }
         }
         
-        stage('Delete Image Locally') {
+        stage('Remove Local Image') {
             steps {
                 script {
-                    deleteLocalImage(DOCKER_IMAGE, IMAGE_TAG)
+                    removeImage(DOCKER_IMAGE, IMAGE_TAG)
                 }
             }
         }
         
-        stage('Update Manifests') {
+        stage('Deploy on K8s') {
             steps {
                 script {
-                    updateK8sManifests(DOCKER_IMAGE, IMAGE_TAG)
-                }
-            }
-        }
-        
-        stage('Push Manifests') {
-            steps {
-                script {
-                    pushManifests()
+                    deployOnK8s(DOCKER_IMAGE, IMAGE_TAG)
                 }
             }
         }
