@@ -1,12 +1,11 @@
 def call(String imageName, String imageTag) {
-    echo "خلاص.. هننشر بالطريقة المباشرة والأكيدة 🚀"
+    echo "جاري النشر باستخدام المسارات المطلقة لضمان النجاح... 🚀"
     
     sh """
-        # 1. تحديث الصورة
-        sed -i "s|image: .*|image: ${imageName}:${imageTag}|g" k8s/deployment.yaml
+        # 1. تحديث الصورة (استخدام المسار الكامل للملف)
+        sed -i "s|image: .*|image: ${imageName}:${imageTag}|g" ${WORKSPACE}/k8s/deployment.yaml
         
-        # 2. النشر باستخدام الـ Config بتاع السيستم نفسه
-        # هنكتب المسار الكامل للـ config عشان نضمن إنه شافه
-        KUBECONFIG=/home/nourhan/.kube/config kubectl apply -f k8s/deployment.yaml --insecure-skip-tls-verify
+        # 2. تنفيذ الأمر باستخدام المسار الكامل لـ kubectl والـ config
+        KUBECONFIG=/home/nourhan/.kube/config /usr/local/bin/kubectl apply -f ${WORKSPACE}/k8s/deployment.yaml --insecure-skip-tls-verify
     """
 }
