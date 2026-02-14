@@ -1,6 +1,7 @@
 def call(String imageName, String imageTag) {
-    echo "جاري بناء صورة Docker من المجلد الفرعي jenkins... 🏗️"
+    echo "جاري بناء الصورة من داخل مجلد jenkins... 🐳"
     
-    // استخدام -f لتحديد مكان الـ Dockerfile
-    sh "docker build -t ${imageName}:${imageTag} -f jenkins/Dockerfile ."
+    // قمنا بتغيير النقطة في النهاية إلى jenkins
+    // هكذا سيبحث Docker عن requirements.txt داخل مجلد jenkins مباشرة
+    sh "docker build -t ${imageName}:${imageTag} -f jenkins/Dockerfile jenkins"
 }
