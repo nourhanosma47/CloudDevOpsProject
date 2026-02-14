@@ -6,7 +6,8 @@ def call(String imageName, String imageTag) {
     sh "echo 'My current PATH is: ' && echo \$PATH"
     sh """
         sed -i 's|image: .*|image: ${imageName}:${imageTag}|g' k8s/deployment.yaml
-        kubectl apply -f k8s/deployment.yaml
+        // جرب كتابة المسار كاملاً هكذا:
+        sh "/usr/local/bin/kubectl apply -f k8s/deployment.yaml"
     """
     
     echo "تم النشر بنجاح على Kubernetes! 🎉"
