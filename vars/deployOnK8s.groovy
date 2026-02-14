@@ -3,7 +3,7 @@ def call(String imageName, String imageTag) {
     
     // سنقوم بتحديث ملف الـ deployment بالصورة الجديدة
     // نفترض أن لديك ملف اسمه deployment.yaml داخل مجلد k8s
-    sh "/usr/local/bin/kubectl get nodes"
+    sh "ls -l /usr/local/bin/kubectl && file /usr/local/bin/kubectl"
     sh """
         sed -i 's|image: .*|image: ${imageName}:${imageTag}|g' k8s/deployment.yaml
         kubectl apply -f k8s/deployment.yaml
