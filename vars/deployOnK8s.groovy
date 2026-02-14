@@ -1,17 +1,12 @@
 def call(String imageName, String imageTag) {
-    echo "جاري النشر المباشر... ☸️"
+    echo "جاري النشر باستخدام الإعدادات المحلية للنظام... ☸️"
     
-    withCredentials([file(credentialsId: 'kubeconfig-file', variable: 'KUBECONFIG_PATH')]) {
-        sh """
-            # 1. تحديث الصورة
-            sed -i "s|image: .*|image: ${imageName}:${imageTag}|g" k8s/deployment.yaml
-            
-            # 2. النشر مع تعطيل التحقق لضمان تجاوز مشكلة المسار
-            ./kubectl apply -f k8s/deployment.yaml \
-                --kubeconfig=\$KUBECONFIG_PATH \
-                --server=https://192.168.49.2:8443 \
-                --insecure-skip-tls-verify \
-                --validate=false
-        """
-    }
+    sh """
+        # 1. تحديث الصورة في ملف الـ YAML
+        sed -i "s|image: .*|image: ${imageName}:${imageTag}|g" k8s/deployment.yaml
+        
+        # 2. النشر المباشر باستخدام kubectl المثبت على النظام
+        # سنحاول التنفيذ مباشرة دون استخدام kubeconfig مرفوع
+        kubectl apply -f k8s/deployment.yaml
+    """
 }
