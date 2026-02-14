@@ -1,8 +1,9 @@
-def call(String imageName, String credentialsId) {
-    echo "جاري رفع الصورة إلى Docker Hub... 🚀"
-    // استخدام credentialsId لتسجيل الدخول بشكل آمن
-    withCredentials([usernamePassword(credentialsId: "${credentialsId}", passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-        sh "echo ${PASS} | docker login -u ${USER} --password-stdin"
-        sh "docker push ${imageName}"
+def call(String imageName, String imageTag, String credsId) {
+    echo "جاري رفع الصورة ${imageName}:${imageTag} إلى Docker Hub... 🚀"
+    
+    // استخدام credsId الذي نمرره من الـ Jenkinsfile
+    withCredentials([usernamePassword(credentialsId: credsId, passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+        sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin"
+        sh "docker push ${imageName}:${imageTag}"
     }
 }
