@@ -1,9 +1,13 @@
-def call(String imageName, String deploymentFile) {
-    echo "جاري النشر على Kubernetes باستخدام الملف: ${deploymentFile} ⛵"
+def call(String imageName, String imageTag) {
+    echo "جاري البدء في عملية النشر (Deployment) على Kubernetes... ☸️"
     
-    // تحديث الصورة داخل الملف
-    sh "sed -i 's|image:.*|image: ${imageName}|g' ${deploymentFile}"
+    // سنقوم بتحديث ملف الـ deployment بالصورة الجديدة
+    // نفترض أن لديك ملف اسمه deployment.yaml داخل مجلد k8s
     
-    // تطبيق التغييرات
-    sh "kubectl apply -f ${deploymentFile}"
+    sh """
+        sed -i 's|image: .*|image: ${imageName}:${imageTag}|g' k8s/deployment.yaml
+        kubectl apply -f k8s/deployment.yaml
+    """
+    
+    echo "تم النشر بنجاح على Kubernetes! 🎉"
 }
