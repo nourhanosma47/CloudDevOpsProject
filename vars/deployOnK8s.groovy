@@ -1,14 +1,11 @@
 def call(String imageName, String imageTag) {
-    echo "جاري البدء في عملية النشر (Deployment) على Kubernetes... ☸️"
+    echo "جاري البدء في عملية النشر على Kubernetes... ☸️"
     
-    // سنقوم بتحديث ملف الـ deployment بالصورة الجديدة
-    // نفترض أن لديك ملف اسمه deployment.yaml داخل مجلد k8s
-    sh "echo 'My current PATH is: ' && echo \$PATH"
     sh """
+        # تحديث الصورة في ملف الـ YAML
         sed -i 's|image: .*|image: ${imageName}:${imageTag}|g' k8s/deployment.yaml
-        // جرب كتابة المسار كاملاً هكذا:
-        sh "/usr/local/bin/kubectl apply -f k8s/deployment.yaml"
+        
+        # تنفيذ الأمر باستخدام المسار الكامل
+        /usr/local/bin/kubectl apply -f k8s/deployment.yaml
     """
-    
-    echo "تم النشر بنجاح على Kubernetes! 🎉"
 }
